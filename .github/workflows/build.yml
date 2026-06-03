@@ -31,7 +31,7 @@ jobs:
     - name: Compile and Publish WinUI 3 App
       shell: cmd
       run: |
-        dotnet publish OnyxWindows/OnyxWindows.csproj -c Release -r win-x64 -p:Platform=x64 --self-contained true -o ./publish > build.log 2>&1
+        dotnet publish OnyxWindows/OnyxWindows.csproj -c Release -r win-x64 -p:Platform=x64 --self-contained true -o ./publish -v detailed > build.log 2>&1
 
     - name: Upload Downloadable executable (.exe)
       uses: actions/upload-artifact@v4
