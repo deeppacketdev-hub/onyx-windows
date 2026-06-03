@@ -16,7 +16,19 @@ public class NewsViewModel : ObservableBase
     public bool IsLoading { get => _isLoading; set => SetProperty(ref _isLoading, value); }
 
     private string? _errorMessage;
-    public string? ErrorMessage { get => _errorMessage; set => SetProperty(ref _errorMessage, value); }
+    public string? ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (SetProperty(ref _errorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasError));
+            }
+        }
+    }
+
+    public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
     public RelayCommand RefreshCommand { get; }
 

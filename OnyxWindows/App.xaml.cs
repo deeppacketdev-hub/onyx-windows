@@ -40,6 +40,9 @@ public partial class App : Application
     // ── Main ViewModel ──
     public static MainViewModel MainVM { get; private set; } = null!;
 
+    // ── Main Window reference (for XamlRoot dialogs) ──
+    public static Window MainWindow { get; private set; } = null!;
+
     private Window? _mainWindow;
 
     public App()
@@ -100,6 +103,7 @@ public partial class App : Application
 
         // 7. Create and show the main window
         _mainWindow = new MainWindow();
+        MainWindow = _mainWindow;
         _mainWindow.Activate();
 
         // 8. Background startup tasks

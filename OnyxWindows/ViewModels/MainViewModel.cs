@@ -12,7 +12,8 @@ public enum ActivePage
     Worlds,
     News,
     Settings,
-    Onboarding
+    Onboarding,
+    InstanceSettings
 }
 
 public class MainViewModel : ObservableBase
@@ -33,6 +34,7 @@ public class MainViewModel : ObservableBase
                 OnPropertyChanged(nameof(IsNewsPage));
                 OnPropertyChanged(nameof(IsSettingsPage));
                 OnPropertyChanged(nameof(IsOnboardingPage));
+                OnPropertyChanged(nameof(IsInstanceSettingsPage));
             }
         }
     }
@@ -45,6 +47,7 @@ public class MainViewModel : ObservableBase
     public bool IsNewsPage => CurrentPage == ActivePage.News;
     public bool IsSettingsPage => CurrentPage == ActivePage.Settings;
     public bool IsOnboardingPage => CurrentPage == ActivePage.Onboarding;
+    public bool IsInstanceSettingsPage => CurrentPage == ActivePage.InstanceSettings;
 
     // ── Child ViewModels ──
     public InstanceGridViewModel InstanceGrid { get; }
@@ -56,6 +59,7 @@ public class MainViewModel : ObservableBase
     public WorldsViewModel Worlds { get; }
     public ScreenshotsViewModel Screenshots { get; }
     public NewsViewModel News { get; }
+    public InstanceSettingsViewModel InstanceSettings { get; }
 
     public MainViewModel()
     {
@@ -69,6 +73,7 @@ public class MainViewModel : ObservableBase
         Worlds = new WorldsViewModel(this);
         Screenshots = new ScreenshotsViewModel(this);
         News = new NewsViewModel(this);
+        InstanceSettings = new InstanceSettingsViewModel(this);
 
         // Check if onboarding is completed, else direct to onboarding
         if (!App.AppData.Config.HasCompletedOnboarding)
@@ -80,5 +85,11 @@ public class MainViewModel : ObservableBase
     public void NavigateTo(ActivePage page)
     {
         CurrentPage = page;
+    }
+
+    public void NavigateToInstanceSettings(Models.Instance instance)
+    {
+        InstanceSettings.LoadInstance(instance);
+        CurrentPage = ActivePage.InstanceSettings;
     }
 }

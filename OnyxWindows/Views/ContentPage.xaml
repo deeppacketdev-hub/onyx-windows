@@ -13,6 +13,7 @@
     xmlns:screenshots="using:OnyxWindows.Views.Screenshots"
     xmlns:settings="using:OnyxWindows.Views.Settings"
     xmlns:onboarding="using:OnyxWindows.Views.Onboarding"
+    xmlns:news="using:OnyxWindows.Views.News"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -116,6 +117,10 @@
                             
                             <ListViewItem x:Name="WorldsItem" ToolTipService.ToolTip="Світи / Worlds">
                                 <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="#8C9BAE" />
+                            </ListViewItem>
+                            
+                            <ListViewItem x:Name="NewsItem" ToolTipService.ToolTip="Новини / News">
+                                <FontIcon Glyph="&#xE12A;" FontSize="18" Foreground="#8C9BAE" />
                             </ListViewItem>
                             
                             <ListViewItem x:Name="ScreenshotsItem" ToolTipService.ToolTip="Скріншоти / Screenshots">
@@ -254,6 +259,16 @@
                         <worlds:WorldsGalleryView 
                             DataContext="{Binding Worlds}"
                             Visibility="{Binding IsWorldsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <!-- News Feed panel -->
+                        <news:NewsView 
+                            DataContext="{Binding News}"
+                            Visibility="{Binding IsNewsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <!-- Instance Settings panel -->
+                        <instances:InstanceSettingsView 
+                            DataContext="{Binding InstanceSettings}"
+                            Visibility="{Binding IsInstanceSettingsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                         <!-- Settings Controls panel -->
                         <settings:GlobalSettingsView 

@@ -32,6 +32,7 @@ public partial class ContentPage : UserControl
             else if (item == SkinsItem) App.MainVM.NavigateTo(ActivePage.Skins);
             else if (item == ScreenshotsItem) App.MainVM.NavigateTo(ActivePage.Screenshots);
             else if (item == WorldsItem) App.MainVM.NavigateTo(ActivePage.Worlds);
+            else if (item == NewsItem) App.MainVM.NavigateTo(ActivePage.News);
             else if (item == SettingsItem) App.MainVM.NavigateTo(ActivePage.Settings);
         }
     }

@@ -33,6 +33,7 @@ public class CreateInstanceViewModel : ObservableBase
         {
             if (SetProperty(ref _selectedLoader, value))
             {
+                OnPropertyChanged(nameof(IsLoaderSelected));
                 _ = LoadLoaderVersions();
             }
         }
@@ -46,6 +47,8 @@ public class CreateInstanceViewModel : ObservableBase
 
     private bool _isLoadingVersions;
     public bool IsLoadingVersions { get => _isLoadingVersions; set => SetProperty(ref _isLoadingVersions, value); }
+
+    public bool IsLoaderSelected => SelectedLoader != ModLoaderType.None;
 
     public RelayCommand CreateCommand { get; }
 

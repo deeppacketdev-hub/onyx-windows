@@ -54,7 +54,7 @@ public class InstanceGridViewModel : ObservableBase
         _mainVM = mainVM;
 
         PlayCommand = new RelayCommand(LaunchSelected, () => SelectedInstance != null);
-        CreateCommand = new RelayCommand(() => _mainVM.NavigateTo(ActivePage.Instances)); // will show dialog
+        CreateCommand = new RelayCommand(ShowCreateDialog);
         DeleteCommand = new RelayCommand(DeleteSelected, () => SelectedInstance != null);
         EditCommand = new RelayCommand(EditSelected, () => SelectedInstance != null);
         DuplicateCommand = new RelayCommand(DuplicateSelected, () => SelectedInstance != null);
@@ -119,8 +119,8 @@ public class InstanceGridViewModel : ObservableBase
     private void EditSelected()
     {
         if (SelectedInstance == null) return;
-        // Navigation to per-instance settings page
-        _mainVM.NavigateTo(ActivePage.Settings);
+        // Navigate to per-instance settings page
+        _mainVM.NavigateToInstanceSettings(SelectedInstance);
     }
 
     private void DuplicateSelected()
@@ -150,5 +150,13 @@ public class InstanceGridViewModel : ObservableBase
                 UseShellExecute = true
             });
         }
+    }
+
+    private async void ShowCreateDialog()
+    {
+        var dialog = new Views.Instances.CreateInstanceDialog();
+        dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
+        await dialog.ShowAsync();
+        RefreshInstances();
     }
 }
