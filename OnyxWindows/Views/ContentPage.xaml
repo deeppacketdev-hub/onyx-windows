@@ -1,0 +1,268 @@
+<UserControl
+    x:Class="OnyxWindows.Views.ContentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:OnyxWindows.ViewModels"
+    xmlns:converters="using:OnyxWindows.Converters"
+    xmlns:instances="using:OnyxWindows.Views.Instances"
+    xmlns:skins="using:OnyxWindows.Views.Skins"
+    xmlns:mods="using:OnyxWindows.Views.Mods"
+    xmlns:worlds="using:OnyxWindows.Views.Worlds"
+    xmlns:screenshots="using:OnyxWindows.Views.Screenshots"
+    xmlns:settings="using:OnyxWindows.Views.Settings"
+    xmlns:onboarding="using:OnyxWindows.Views.Onboarding"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <!-- Base Frame Background Matching HTML (#111318) -->
+    <Grid Background="#111318">
+        <Grid.RowDefinitions>
+            <!-- Custom Titlebar Row -->
+            <RowDefinition Height="34" />
+            <!-- Main Content Area Row -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ROW 0: CUSTOM TITLEBAR STRIP -->
+        <Border Grid.Row="0" Background="rgba(255,255,255,0.04)" BorderBrush="rgba(255,255,255,0.07)" BorderThickness="0,0,0,1">
+            <Grid Padding="16,0,12,0" ColumnDefinitions="*,Auto">
+                <!-- Title & Gradient Logo -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Border Width="14" Height="14" CornerRadius="3" VerticalAlignment="Center">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#7C6DFA" Offset="0.0" />
+                                <GradientStop Color="#4C8AEA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <TextBlock Text="Onyx Launcher" FontSize="12" FontWeight="SemiBold" Foreground="rgba(255,255,255,0.45)" LetterSpacing="2" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Window Control Buttons Placeholder -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                    <Button Content="—" Background="rgba(255,255,255,0.06)" Foreground="rgba(255,255,255,0.4)" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
+                    <Button Content="⬜" Background="rgba(255,255,255,0.06)" Foreground="rgba(255,255,255,0.4)" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
+                    <Button Content="✕" Background="rgba(220,50,50,0.25)" Foreground="rgba(220,80,80,0.8)" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ROW 1: MAIN CLIENT LAYER -->
+        <Grid Grid.Row="1">
+            <!-- ONBOARDING OVERLAY (Visible only when IsOnboardingPage is true) -->
+            <onboarding:OnboardingView 
+                Visibility="{Binding IsOnboardingPage, Converter={StaticResource BoolToVisibilityConverter}}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+
+            <!-- MAIN GRID CONTENT (Visible only when IsOnboardingPage is false) -->
+            <Grid Visibility="{Binding IsOnboardingPage, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <!-- Collapsed 56px Sidebar Column -->
+                    <ColumnDefinition Width="56" />
+                    <!-- Right Content Window Area -->
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- COLUMN 0: COMPACT 56px LEFT SIDEBAR -->
+                <Border Grid.Column="0" Background="rgba(255,255,255,0.025)" BorderBrush="rgba(255,255,255,0.06)" BorderThickness="0,0,1,0">
+                    <Grid Padding="0,12">
+                        <Grid.RowDefinitions>
+                            <!-- Main pages Navigation -->
+                            <RowDefinition Height="Auto" />
+                            <!-- Spacer -->
+                            <RowDefinition Height="*" />
+                            <!-- Settings Navigation -->
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Main Pages Icons -->
+                        <ListView Grid.Row="0"
+                                  x:Name="MainNavigationList"
+                                  SelectionMode="Single"
+                                  SelectionChanged="Sidebar_SelectionChanged"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  HorizontalAlignment="Center"
+                                  Width="56">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="0,2" />
+                                    <Setter Property="MinHeight" Value="38" />
+                                    <Setter Property="MinWidth" Value="38" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            
+                            <ListViewItem x:Name="InstancesItem" IsSelected="True" ToolTipService.ToolTip="Збірки / Instances">
+                                <FontIcon Glyph="&#xE7F4;" FontSize="18" Foreground="#8C9BAE" />
+                            </ListViewItem>
+                            
+                            <ListViewItem x:Name="SkinsItem" ToolTipService.ToolTip="Скіни / Skins">
+                                <FontIcon Glyph="&#xE77B;" FontSize="18" Foreground="#8C9BAE" />
+                            </ListViewItem>
+                            
+                            <ListViewItem x:Name="ModsItem" ToolTipService.ToolTip="Моди / Mods">
+                                <FontIcon Glyph="&#xE734;" FontSize="18" Foreground="#8C9BAE" />
+                            </ListViewItem>
+                            
+                            <ListViewItem x:Name="WorldsItem" ToolTipService.ToolTip="Світи / Worlds">
+                                <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="#8C9BAE" />
+                            </ListViewItem>
+                            
+                            <ListViewItem x:Name="ScreenshotsItem" ToolTipService.ToolTip="Скріншоти / Screenshots">
+                                <FontIcon Glyph="&#xEB9F;" FontSize="18" Foreground="#8C9BAE" />
+                            </ListViewItem>
+                        </ListView>
+
+                        <!-- Bottom Settings Icon -->
+                        <ListView Grid.Row="2"
+                                  x:Name="SettingsNavigationList"
+                                  SelectionMode="Single"
+                                  SelectionChanged="Sidebar_SelectionChanged"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  HorizontalAlignment="Center"
+                                  Width="56">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="MinHeight" Value="38" />
+                                    <Setter Property="MinWidth" Value="38" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListViewItem x:Name="SettingsItem" ToolTipService.ToolTip="Налаштування / Settings">
+                                <FontIcon Glyph="&#xE713;" FontSize="18" Foreground="#8C9BAE" />
+                            </ListViewItem>
+                        </ListView>
+                    </Grid>
+                </Border>
+
+                <!-- COLUMN 1: RIGHT CONTENT PANEL -->
+                <Grid Grid.Column="1" Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <!-- Topbar Row -->
+                        <RowDefinition Height="52" />
+                        <!-- Page Presenter Row -->
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- ROW 0: TOPBAR STRIP -->
+                    <Border Grid.Row="0" Background="rgba(255,255,255,0.02)" BorderBrush="rgba(255,255,255,0.07)" BorderThickness="0,0,0,1">
+                        <Grid Padding="16,0" ColumnDefinitions="*,Auto,Auto">
+                            <!-- Search box in WinUI style matching CSS -->
+                            <Grid Grid.Column="0" Width="260" Height="30" HorizontalAlignment="Left">
+                                <TextBox PlaceholderText="Пошук збірок / Search..."
+                                         Background="rgba(255,255,255,0.07)"
+                                         Foreground="#FFFFFF"
+                                         BorderBrush="rgba(255,255,255,0.1)"
+                                         BorderThickness="0.5"
+                                         CornerRadius="8"
+                                         Padding="10,0"
+                                         VerticalContentAlignment="Center"
+                                         FontSize="12" />
+                            </Grid>
+
+                            <!-- Account Pill rounded container -->
+                            <Border Grid.Column="1"
+                                    Background="rgba(255,255,255,0.06)"
+                                    BorderBrush="rgba(255,255,255,0.1)"
+                                    BorderThickness="0.5"
+                                    CornerRadius="20"
+                                    Padding="4,4,12,4"
+                                    Margin="0,0,12,0"
+                                    Height="30"
+                                    VerticalAlignment="Center">
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <!-- Avatar with purple gradient -->
+                                    <Border Grid.Column="0" Width="22" Height="22" CornerRadius="11" Margin="0,0,8,0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#7C6DFA" Offset="0.0" />
+                                                <GradientStop Color="#4C8AEA" Offset="1.0" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <TextBlock Text="{Binding Accounts.ActiveAccount.Username[0], FallbackValue='S'}"
+                                                   Foreground="White"
+                                                   FontSize="10"
+                                                   FontWeight="SemiBold"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Border>
+                                    
+                                    <!-- Display Username -->
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Accounts.ActiveAccount.Username, FallbackValue='Steve'}"
+                                               Foreground="rgba(255,255,255,0.7)"
+                                               FontSize="12"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Add Button circle plus icon -->
+                            <Button Grid.Column="2"
+                                    Command="{Binding InstanceGrid.CreateCommand}"
+                                    Width="30"
+                                    Height="30"
+                                    CornerRadius="8"
+                                    Background="rgba(124,109,250,0.25)"
+                                    BorderBrush="rgba(124,109,250,0.4)"
+                                    BorderThickness="0.5"
+                                    Padding="0">
+                                <Button.Resources>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="rgba(124,109,250,0.35)" />
+                                </Button.Resources>
+                                <FontIcon Glyph="&#xE710;" FontSize="14" Foreground="#A594F9" />
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <!-- ROW 1: CONTENT SWITCHER PANEL -->
+                    <Grid Grid.Row="1" Padding="16">
+                        <!-- Instances Grid View -->
+                        <instances:InstanceGridView 
+                            DataContext="{Binding InstanceGrid}"
+                            Visibility="{Binding IsInstancesPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <!-- Mods Search Browser -->
+                        <mods:ModBrowserView 
+                            DataContext="{Binding Mods}"
+                            Visibility="{Binding IsModsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <!-- Skins Manager panel -->
+                        <skins:SkinBrowserPanel 
+                            DataContext="{Binding Skins}"
+                            Visibility="{Binding IsSkinsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <!-- Screenshots Gallery -->
+                        <screenshots:ScreenshotsGalleryView 
+                            DataContext="{Binding Screenshots}"
+                            Visibility="{Binding IsScreenshotsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <!-- Worlds Gallery -->
+                        <worlds:WorldsGalleryView 
+                            DataContext="{Binding Worlds}"
+                            Visibility="{Binding IsWorldsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <!-- Settings Controls panel -->
+                        <settings:GlobalSettingsView 
+                            DataContext="{Binding Settings}"
+                            Visibility="{Binding IsSettingsPage, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

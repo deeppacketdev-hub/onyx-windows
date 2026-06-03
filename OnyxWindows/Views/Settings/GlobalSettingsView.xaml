@@ -1,0 +1,197 @@
+<UserControl
+    x:Class="OnyxWindows.Views.Settings.GlobalSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:OnyxWindows.ViewModels"
+    xmlns:converters="using:OnyxWindows.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid Background="Transparent">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="24" MaxWidth="720" HorizontalAlignment="Left">
+                
+                <!-- Page Title -->
+                <StackPanel Spacing="4" Margin="0,0,0,8">
+                    <TextBlock Text="Global Settings" FontSize="24" FontWeight="Bold" Foreground="#FFFFFF" />
+                    <TextBlock Text="Configure defaults, memory limits, account integrations, and appearance details" FontSize="13" Foreground="#8C9BAE" />
+                </StackPanel>
+
+                <!-- SECTION 1: Performance -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Performance &amp; Launch Options" FontSize="14" FontWeight="Bold" Foreground="#4C8AEA" />
+                    
+                    <!-- RAM Allocation Slider Card -->
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center" Margin="0,0,24,0">
+                                <TextBlock Text="Default Java RAM Allocation" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Set default system memory allocated to Minecraft launch environments." Foreground="#8C9BAE" FontSize="12" />
+                                <Slider Minimum="1024"
+                                        Maximum="16384"
+                                        StepFrequency="512"
+                                        Value="{Binding DefaultRamMB, Mode=TwoWay}"
+                                        Width="300"
+                                        Foreground="#4C8AEA"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,8,0,0" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="{Binding DefaultRamMB}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="20" />
+                                <TextBlock Text="MB" Foreground="#8C9BAE" FontSize="14" VerticalAlignment="Bottom" Margin="0,0,0,2" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Show Console Toggle Card -->
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="Show Log Console on Launch" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Opens the diagnostic stream monitor automatically when starting a Minecraft process." Foreground="#8C9BAE" FontSize="12" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsOn="{Binding ShowConsoleOnLaunch, Mode=TwoWay}" OnContent="" OffContent="" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Close Launcher Toggle Card -->
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="Close Launcher on Launch" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Terminates launcher window context completely after launching game environment to free resources." Foreground="#8C9BAE" FontSize="12" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsOn="{Binding CloseLauncherOnLaunch, Mode=TwoWay}" OnContent="" OffContent="" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- SECTION 2: Customization -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Theme &amp; Accessibility Customization" FontSize="14" FontWeight="Bold" Foreground="#4C8AEA" />
+
+                    <!-- App Theme ComboBox -->
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="Visual Interface Theme" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Toggle between System defaults, Sleek dark modes or harmonic palettes." Foreground="#8C9BAE" FontSize="12" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="1"
+                                      ItemsSource="{Binding Themes}"
+                                      SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                                      Width="160"
+                                      Background="#1C2E3F"
+                                      Foreground="#FFFFFF"
+                                      BorderBrush="#253545"
+                                      CornerRadius="6"
+                                      VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- App Language ComboBox -->
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="Application Language" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Switch localization dictionary parameters immediately across all page labels." Foreground="#8C9BAE" FontSize="12" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="1"
+                                      ItemsSource="{Binding Languages}"
+                                      SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
+                                      Width="160"
+                                      Background="#1C2E3F"
+                                      Foreground="#FFFFFF"
+                                      BorderBrush="#253545"
+                                      CornerRadius="6"
+                                      VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- SECTION 3: Integrations -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Integrations &amp; Privacy" FontSize="14" FontWeight="Bold" Foreground="#4C8AEA" />
+
+                    <!-- Discord RPC Card -->
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="Discord Rich Presence" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Announces active playtime status, server IP address and version to Discord peers." Foreground="#8C9BAE" FontSize="12" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsOn="{Binding EnableDiscordRpc, Mode=TwoWay}" OnContent="" OffContent="" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Telemetry Card -->
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="Anonymous Diagnostic Telemetry" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Sends minimal load signals to verify launchers security, uptime, and versions usage." Foreground="#8C9BAE" FontSize="12" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsOn="{Binding EnableTelemetry, Mode=TwoWay}" OnContent="" OffContent="" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- SECTION 4: Storage & Maintenance -->
+                <StackPanel Spacing="12" Margin="0,0,0,32">
+                    <TextBlock Text="Launcher Directory Maintenance" FontSize="14" FontWeight="Bold" Foreground="#4C8AEA" />
+
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="AppData Base Folder" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="{Binding DataDirectoryPath}" Foreground="#8C9BAE" FontSize="11" />
+                            </StackPanel>
+                            <Button Grid.Column="1"
+                                    Command="{Binding OpenDataFolderCommand}"
+                                    Content="Open Directory"
+                                    Background="#1C2E3F"
+                                    Foreground="#FFFFFF"
+                                    BorderBrush="#253545"
+                                    Padding="16,8"
+                                    CornerRadius="6"
+                                    VerticalAlignment="Center">
+                                <Button.Resources>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#2A3E50" />
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <Border Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="12" Padding="20,16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="Check for Updates" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" />
+                                <TextBlock Text="Query GitHub servers to check if a higher assembly execution build version is released." Foreground="#8C9BAE" FontSize="12" />
+                            </StackPanel>
+                            <Button Grid.Column="1"
+                                    Command="{Binding CheckUpdatesCommand}"
+                                    Content="Check Assembly Build"
+                                    Background="#4C8AEA"
+                                    Foreground="#FFFFFF"
+                                    Padding="16,8"
+                                    CornerRadius="6"
+                                    VerticalAlignment="Center">
+                                <Button.Resources>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#5C9AEA" />
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

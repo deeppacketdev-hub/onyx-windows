@@ -1,0 +1,227 @@
+<UserControl
+    x:Class="OnyxWindows.Views.Mods.ModBrowserView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:OnyxWindows.ViewModels"
+    xmlns:services="using:OnyxWindows.Services"
+    xmlns:converters="using:OnyxWindows.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </UserControl.Resources>
+
+    <Grid Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Side: Addons Search & List -->
+        <Grid Grid.Column="0" Margin="0,0,16,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Search Bar -->
+            <Grid Grid.Row="0" Margin="0,0,0,16" ColumnDefinitions="*,Auto">
+                <TextBox Grid.Column="0"
+                         Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="Search mods, shaders, and resource packs on Modrinth..."
+                         Background="#1C2E3F"
+                         Foreground="#FFFFFF"
+                         BorderBrush="#2A3E50"
+                         BorderThickness="1"
+                         CornerRadius="8"
+                         Padding="12,10"
+                         FontSize="14" />
+                
+                <Button Grid.Column="1"
+                        Command="{Binding SearchModsCommand}"
+                        Background="#4C8AEA"
+                        Foreground="#FFFFFF"
+                        Width="44"
+                        Height="42"
+                        Margin="8,0,0,0"
+                        CornerRadius="8"
+                        BorderThickness="0">
+                    <FontIcon Glyph="&#xE721;" FontSize="16" />
+                </Button>
+            </Grid>
+
+            <!-- Projects GridView -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <!-- Progress Spinner -->
+                    <ProgressRing IsActive="{Binding IsSearching}"
+                                  Visibility="{Binding IsSearching, Converter={StaticResource BoolToVisibilityConverter}}"
+                                  Foreground="#4C8AEA"
+                                  Width="48"
+                                  Height="48"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+
+                    <!-- Search Results Grid -->
+                    <ItemsControl ItemsSource="{Binding Projects}" 
+                                  Visibility="{Binding IsSearching, Converter={StaticResource InverseBoolConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="10" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="services:ModrinthProject">
+                                <Button HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        Background="#14212F"
+                                        BorderBrush="#253545"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="16"
+                                        Click="Project_Click">
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#1C2E3F" />
+                                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#30445C" />
+                                    </Button.Resources>
+                                    
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <!-- Project Icon -->
+                                        <Border Grid.Column="0" Width="48" Height="48" CornerRadius="8" Margin="0,0,16,0" Background="#0F1923" ClipToBounds="True">
+                                            <Image Source="{x:Binding IconUrl}" Width="48" Height="48" Stretch="UniformToFill" />
+                                        </Border>
+
+                                        <!-- Text Details -->
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{x:Binding Title}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="15" />
+                                            <TextBlock Text="{x:Binding Description}" Foreground="#8C9BAE" FontSize="12" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="0,4,0,0" />
+                                        </StackPanel>
+
+                                        <!-- Stats Indicator -->
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="4">
+                                            <StackPanel Orientation="Horizontal" Spacing="4" HorizontalAlignment="Right">
+                                                <FontIcon Glyph="&#xE896;" FontSize="12" Foreground="#8C9BAE" />
+                                                <TextBlock Text="{x:Binding Downloads}" FontSize="12" Foreground="#8C9BAE" />
+                                            </StackPanel>
+                                            <Border Background="#1C2E3F" CornerRadius="4" Padding="6,2" HorizontalAlignment="Right">
+                                                <TextBlock Text="{x:Binding ProjectType}" FontSize="10" Foreground="#4C8AEA" FontWeight="SemiBold" TextUpConverter="ToUpper" />
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Right Side: Selected Project Detail Panel -->
+        <Border Grid.Column="1" Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="16" Padding="20">
+            <Grid>
+                <!-- Detail View Content (Visible when a project is selected) -->
+                <Grid Visibility="{Binding IsProjectSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Spacing="12">
+                        <!-- Heading Info -->
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Border Grid.Column="0" Width="64" Height="64" CornerRadius="12" Margin="0,0,16,0" Background="#0F1923" ClipToBounds="True">
+                                <Image Source="{Binding SelectedProject.IconUrl}" Width="64" Height="64" Stretch="UniformToFill" />
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding SelectedProject.Title}" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" />
+                                <TextBlock Text="{Binding SelectedProject.Author, FallbackValue='Unknown Author'}" FontSize="13" Foreground="#8C9BAE" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Height="1" Background="#253545" Margin="0,8" />
+                    </StackPanel>
+
+                    <!-- Scrollable Description and Version Selection -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,16">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="Description" FontSize="14" FontWeight="SemiBold" Foreground="#FFFFFF" />
+                            <TextBlock Text="{Binding SelectedProject.Description}" Foreground="#8C9BAE" FontSize="13" TextWrapping="Wrap" />
+
+                            <TextBlock Text="Versions" FontSize="14" FontWeight="SemiBold" Foreground="#FFFFFF" Margin="0,8,0,0" />
+                            
+                            <Grid>
+                                <ProgressRing IsActive="{Binding IsLoadingVersions}"
+                                              Visibility="{Binding IsLoadingVersions, Converter={StaticResource BoolToVisibilityConverter}}"
+                                              Foreground="#4C8AEA"
+                                              Width="30"
+                                              Height="30"
+                                              HorizontalAlignment="Center" />
+
+                                <ListView ItemsSource="{Binding ProjectVersions}"
+                                          Visibility="{Binding IsLoadingVersions, Converter={StaticResource InverseBoolConverter}}"
+                                          SelectionMode="None"
+                                          Background="Transparent"
+                                          BorderThickness="0">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="services:ModrinthVersion">
+                                            <Border Background="#1C2E3F" CornerRadius="8" Padding="12,10" Margin="0,0,0,8" BorderBrush="#2A3E50" BorderThickness="1">
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <StackPanel Grid.Column="0" Spacing="4">
+                                                        <TextBlock Text="{x:Binding Name}" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="13" />
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="{x:Binding VersionNumber}" Foreground="#8C9BAE" FontSize="11" />
+                                                            <TextBlock Text="•" Foreground="#8C9BAE" FontSize="11" />
+                                                            <TextBlock Text="{x:Binding GameVersions[0]}" Foreground="#4C8AEA" FontSize="11" FontWeight="SemiBold" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Bottom Action Buttons -->
+                    <StackPanel Grid.Row="2" Spacing="8">
+                        <Button Command="{Binding InstallCommand}"
+                                Background="#4C8AEA"
+                                Foreground="#FFFFFF"
+                                HorizontalAlignment="Stretch"
+                                Padding="0,12"
+                                CornerRadius="8"
+                                FontWeight="SemiBold"
+                                Content="Install to Active Instance">
+                            <Button.Resources>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#5C9AEA" />
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Placeholder Empty State (Visible when no project is selected) -->
+                <Grid Visibility="{Binding IsProjectSelected, Converter={StaticResource InverseBoolConverter}}" Padding="24">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16">
+                        <Ellipse Width="64" Height="64" Fill="#1C2E3F" HorizontalAlignment="Center">
+                            <!-- Glyph placeholder -->
+                        </Ellipse>
+                        <TextBlock Text="Select an Add-on" FontSize="16" FontWeight="SemiBold" Foreground="#FFFFFF" HorizontalAlignment="Center" />
+                        <TextBlock Text="Choose a mod or shader pack from search results to see compatibility details and install." 
+                                   Foreground="#8C9BAE" 
+                                   FontSize="13" 
+                                   TextAlignment="Center" 
+                                   MaxLines="3" 
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

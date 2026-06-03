@@ -1,0 +1,105 @@
+<UserControl
+    x:Class="OnyxWindows.Views.Skins.SkinBrowserPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:services="using:OnyxWindows.Services"
+    xmlns:converters="using:OnyxWindows.Converters"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="320" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Panel: Lists & Search -->
+        <Grid Grid.Column="0" Margin="0,0,24,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Search Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,16" ColumnDefinitions="*,Auto">
+                <TextBox Grid.Column="0" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         PlaceholderText="Enter username or UUID to search skins..." Width="400" HorizontalAlignment="Left"
+                         Background="#1A2836" Foreground="#FFFFFF" BorderBrush="#253545" CornerRadius="8" />
+                <Button Grid.Column="1" Content="Browse Popular" Command="{Binding RefreshCommand}"
+                        Background="#2C3E50" Foreground="#FFFFFF" CornerRadius="8" BorderThickness="0" Padding="12,8" />
+            </Grid>
+
+            <!-- Local Library / Online Browse Results Split -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Skins Gallery" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,0,12" />
+
+                <!-- GridView of skins -->
+                <GridView Grid.Row="1" ItemsSource="{Binding SavedSkins}" SelectedItem="{Binding SelectedSkin, Mode=TwoWay}"
+                          SelectionMode="Single" Padding="0">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="services:SavedSkin">
+                            <Border Background="#1C2E3F" BorderBrush="#2A3E50" BorderThickness="1" CornerRadius="12" Width="130" Height="150" Margin="0,0,12,12" Padding="8">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <!-- Circular Head Preview -->
+                                    <Ellipse Grid.Row="0" Width="64" Height="64" Fill="#2A3E50" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    
+                                    <TextBlock Grid.Row="1" Text="{x:Bind Name}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" 
+                                               HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" MaxLines="1" Margin="0,8,0,0" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </Grid>
+        </Grid>
+
+        <!-- Right Panel: Premium 3D-like Skin Render Details -->
+        <Border Grid.Column="1" Background="#14212F" BorderBrush="#253545" BorderThickness="1" CornerRadius="16" Padding="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- 3D Render Placeholder & Details -->
+                <StackPanel Grid.Row="0" Spacing="16" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- Giant Avatar representation -->
+                    <Border Width="120" Height="220" Background="#1C2E3F" CornerRadius="16" BorderBrush="#2A3E50" BorderThickness="1">
+                        <TextBlock Text="Render" Foreground="#8C9BAE" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding SelectedSkin.Name, FallbackValue='No Skin Selected'}" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding SelectedSkin.Source, FallbackValue='Select a skin to apply'}" FontSize="13" Foreground="#8C9BAE" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Actions Footer -->
+                <StackPanel Grid.Row="1" Spacing="10" Margin="0,16,0,0" Visibility="{Binding IsSkinSelected, Converter={StaticResource BoolToVis}}">
+                    <Button Content="Apply Skin" Command="{Binding ApplyCommand}" HorizontalAlignment="Stretch" 
+                            Background="#4C8AEA" Foreground="#FFFFFF" Padding="12" CornerRadius="8" BorderThickness="0" FontWeight="SemiBold" />
+                    <Button Content="Delete Skin" Command="{Binding DeleteCommand}" HorizontalAlignment="Stretch" 
+                            Background="#E74C3C" Foreground="#FFFFFF" Padding="12" CornerRadius="8" BorderThickness="0" FontWeight="SemiBold">
+                        <Button.Resources>
+                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#C0392B" />
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
