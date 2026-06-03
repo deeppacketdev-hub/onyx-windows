@@ -1,1 +1,0 @@
-No build.log found. The compile step failed before generating it.
