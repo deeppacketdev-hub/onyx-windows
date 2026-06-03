@@ -1,6 +1,8 @@
 using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using OnyxWindows.Models;
+using OnyxWindows.Services;
 
 namespace OnyxWindows.Converters;
 
@@ -63,18 +65,18 @@ public class InstanceStateToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is Models.InstanceState state)
+        if (value is InstanceState state)
         {
             return state switch
             {
-                Models.InstanceState.NotDownloaded => "Not Downloaded",
-                Models.InstanceState.Ready => "Ready",
-                Models.InstanceState.Preparing => "Preparing...",
-                Models.InstanceState.Downloading => "Downloading...",
-                Models.InstanceState.Running => "Running",
-                Models.InstanceState.Stopping => "Stopping...",
-                Models.InstanceState.Stopped => "Stopped",
-                Models.InstanceState.Crashed => "Crashed",
+                InstanceState.NotDownloaded => "Not Downloaded",
+                InstanceState.Ready => "Ready",
+                InstanceState.Preparing => "Preparing...",
+                InstanceState.Downloading => "Downloading...",
+                InstanceState.Running => "Running",
+                InstanceState.Stopping => "Stopping...",
+                InstanceState.Stopped => "Stopped",
+                InstanceState.Crashed => "Crashed",
                 _ => ""
             };
         }
@@ -112,13 +114,13 @@ public class LogTypeColorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is Services.LogType type)
+        if (value is LogType type)
         {
             var hex = type switch
             {
-                Services.LogType.Info => "#E0E0E0",
-                Services.LogType.Error => "#FF4C4C",
-                Services.LogType.System => "#4CFF4C",
+                LogType.Info => "#E0E0E0",
+                LogType.Error => "#FF4C4C",
+                LogType.System => "#4CFF4C",
                 _ => "#E0E0E0"
             };
             return new Microsoft.UI.Xaml.Media.SolidColorBrush(OnyxWindows.Helpers.ColorExtensions.FromHex(hex));
@@ -139,7 +141,7 @@ public class InstanceToEmojiConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is Models.Instance inst)
+        if (value is Instance inst)
         {
             var name = inst.Name ?? "";
             var ver = inst.MinecraftVersion ?? "";
@@ -171,7 +173,7 @@ public class InstanceToCardArtBrushConverter : IValueConverter
         var startHex = "#1A1A2A";
         var endHex = "#0D1A3B";
 
-        if (value is Models.Instance inst)
+        if (value is Instance inst)
         {
             var name = inst.Name ?? "";
             var ver = inst.MinecraftVersion ?? "";
