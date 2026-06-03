@@ -29,34 +29,9 @@ jobs:
       run: dotnet restore OnyxWindows/OnyxWindows.csproj
 
     - name: Compile and Publish WinUI 3 App
-      shell: pwsh
+      shell: cmd
       run: |
-        $logFile = "build.log"
-        dotnet publish OnyxWindows/OnyxWindows.csproj `
-          -c Release `
-          -r win-x64 `
-          -p:Platform=x64 `
-          --self-contained true `
-          -o ./publish > $logFile 2>&1
-        $exitCode = $LASTEXITCODE
-        if ($exitCode -ne 0) {
-            Get-Content $logFile | ForEach-Object {
-                Write-Host $_
-                if ($_ -match '^([^(]+)\((\d+),(\d+)\):\s*error\s+([^:]+):\s*(.*)$') {
-                    $filePath = $Matches[1].Trim()
-                    $line = $Matches[2]
-                    $col = $Matches[3]
-                    $code = $Matches[4].Trim()
-                    $msg = $Matches[5].Trim()
-                    if ($filePath.StartsWith($env:GITHUB_WORKSPACE)) {
-                        $filePath = $filePath.Substring($env:GITHUB_WORKSPACE.Length).TrimStart("\/")
-                    }
-                    $filePath = $filePath.Replace("\", "/")
-                    Write-Host "::error file=$filePath,line=$line,col=$col::$code: $msg"
-                }
-            }
-            exit $exitCode
-        }
+        dotnet publish OnyxWindows/OnyxWindows.csproj -c Release -r win-x64 -p:Platform=x64 --self-contained true -o ./publish > build.log 2>&1
 
     - name: Upload Downloadable executable (.exe)
       uses: actions/upload-artifact@v4
