@@ -126,13 +126,15 @@ public class InstanceGridViewModel : ObservableBase
     private void DuplicateSelected()
     {
         if (SelectedInstance == null) return;
-        var clone = new Instance($"{SelectedInstance.Name} (Copy)", SelectedInstance.MinecraftVersion)
+        var clone = new Instance
         {
+            Name = $"{SelectedInstance.Name} (Copy)",
+            MinecraftVersion = SelectedInstance.MinecraftVersion,
             ModLoader = SelectedInstance.ModLoader,
             ModLoaderVersion = SelectedInstance.ModLoaderVersion,
             RamMB = SelectedInstance.RamMB,
-            JvmArguments = new List<string>(SelectedInstance.JvmArguments),
-            CustomIconPath = SelectedInstance.CustomIconPath
+            JvmArguments = SelectedInstance.JvmArguments,
+            IconFilename = SelectedInstance.IconFilename
         };
         App.Instances.AddInstance(clone);
         RefreshInstances();
@@ -141,7 +143,7 @@ public class InstanceGridViewModel : ObservableBase
     private void OpenFolderSelected()
     {
         if (SelectedInstance == null) return;
-        var dir = Path.Combine(App.AppData.InstancesDirectory.LocalPath, SelectedInstance.DirectoryName);
+        var dir = Path.Combine(App.AppData.InstancesDirectory, SelectedInstance.DirectoryName);
         if (Directory.Exists(dir))
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo

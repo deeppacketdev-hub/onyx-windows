@@ -71,7 +71,7 @@ public class InstanceTransferService : Helpers.ObservableBase
             if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
             Directory.CreateDirectory(tempDir);
 
-            var srcMcDir = Path.Combine(_appData.InstancesDirectory.LocalPath, instance.DirectoryName, ".minecraft");
+            var srcMcDir = Path.Combine(_appData.InstancesDirectory, instance.DirectoryName, ".minecraft");
 
             // 1. Write Onyx Profile metadata
             var profile = new OnyxProfile
@@ -188,7 +188,7 @@ public class InstanceTransferService : Helpers.ObservableBase
                 RamMB = profile?.RamMB ?? 4096
             };
 
-            var instanceDir = Path.Combine(_appData.InstancesDirectory.LocalPath, instance.DirectoryName);
+            var instanceDir = Path.Combine(_appData.InstancesDirectory, instance.DirectoryName);
             var destMcDir = Path.Combine(instanceDir, ".minecraft");
 
             Directory.CreateDirectory(destMcDir);

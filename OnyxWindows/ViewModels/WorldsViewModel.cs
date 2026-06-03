@@ -51,7 +51,7 @@ public class WorldsViewModel : ObservableBase
         try
         {
             var instances = App.Instances.AllInstances;
-            await App.Worlds.LoadWorlds(instances, App.AppData.InstancesDirectory.LocalPath);
+            await App.Worlds.LoadWorlds(instances, App.AppData.InstancesDirectory);
 
             Worlds.Clear();
             foreach (var w in App.Worlds.Worlds)

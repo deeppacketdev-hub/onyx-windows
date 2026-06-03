@@ -110,7 +110,7 @@ public class ModBrowserViewModel : ObservableBase
         if (SelectedProject == null || _mainVM.InstanceGrid.SelectedInstance == null) return;
 
         var instance = _mainVM.InstanceGrid.SelectedInstance;
-        var destinationDir = Path.Combine(App.AppData.InstancesDirectory.LocalPath, instance.DirectoryName, ".minecraft", "mods");
+        var destinationDir = Path.Combine(App.AppData.InstancesDirectory, instance.DirectoryName, ".minecraft", "mods");
 
         try
         {

@@ -72,6 +72,11 @@ public class InstanceStore : ObservableBase
     /// <summary>
     /// Saves a single instance to its directory.
     /// </summary>
+    public void SaveInstance(Instance instance)
+    {
+        SaveInstance(instance, App.AppData.InstancesDirectory);
+    }
+
     public void SaveInstance(Instance instance, string instancesDir)
     {
         var dir = Path.Combine(instancesDir, instance.DirectoryName);
@@ -86,6 +91,11 @@ public class InstanceStore : ObservableBase
     /// <summary>
     /// Adds a new instance and saves it.
     /// </summary>
+    public void AddInstance(Instance instance)
+    {
+        AddInstance(instance, App.AppData.InstancesDirectory);
+    }
+
     public void AddInstance(Instance instance, string instancesDir)
     {
         AllInstances.Add(instance);
@@ -96,6 +106,11 @@ public class InstanceStore : ObservableBase
     /// <summary>
     /// Removes an instance and deletes its directory.
     /// </summary>
+    public void RemoveInstance(Instance instance)
+    {
+        RemoveInstance(instance, App.AppData.InstancesDirectory);
+    }
+
     public void RemoveInstance(Instance instance, string instancesDir)
     {
         AllInstances.Remove(instance);

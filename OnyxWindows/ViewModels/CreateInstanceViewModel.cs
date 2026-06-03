@@ -156,8 +156,10 @@ public class CreateInstanceViewModel : ObservableBase
     {
         if (!CanCreate()) return;
 
-        var instance = new Instance(InstanceName.Trim(), SelectedMinecraftVersion)
+        var instance = new Instance
         {
+            Name = InstanceName.Trim(),
+            MinecraftVersion = SelectedMinecraftVersion,
             ModLoader = SelectedLoader,
             ModLoaderVersion = SelectedLoaderVersion,
             RamMB = App.AppData.Config.DefaultRamMB

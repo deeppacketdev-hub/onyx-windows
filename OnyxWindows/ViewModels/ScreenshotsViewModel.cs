@@ -52,7 +52,7 @@ public class ScreenshotsViewModel : ObservableBase
         try
         {
             var instances = App.Instances.AllInstances;
-            await App.Screenshots.LoadScreenshots(instances, App.AppData.InstancesDirectory.LocalPath);
+            await App.Screenshots.LoadScreenshots(instances, App.AppData.InstancesDirectory);
 
             Screenshots.Clear();
             foreach (var s in App.Screenshots.Screenshots)

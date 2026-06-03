@@ -59,7 +59,7 @@ public class SkinManager : Helpers.ObservableBase
     public bool HasMoreSkins { get => _hasMoreSkins; set => SetProperty(ref _hasMoreSkins, value); }
 
     private readonly AppDataManager _appData;
-    private string LibraryFile => Path.Combine(_appData.SkinsDirectory.LocalPath, "library.json");
+    private string LibraryFile => Path.Combine(_appData.SkinsDirectory, "library.json");
 
     private List<string> _shuffledPool = new();
     private int _loadedIndex = 0;
@@ -281,18 +281,18 @@ public class SkinManager : Helpers.ObservableBase
         try
         {
             var filename = $"{skin.Name.ToLower()}_{skin.Id.Substring(0, Math.Min(8, skin.Id.Length))}.png";
-            var destPath = Path.Combine(_appData.SkinsDirectory.LocalPath, filename);
+            var destPath = Path.Combine(_appData.SkinsDirectory, filename);
 
             var skinBytes = await HttpClientFactory.Shared.GetByteArrayAsync(skin.SkinTextureUrl);
             await File.WriteAllBytesAsync(destPath, skinBytes);
 
             var previewBytes = await HttpClientFactory.Shared.GetByteArrayAsync(skin.PreviewUrl);
             var baseName = Path.GetFileNameWithoutExtension(filename);
-            var renderPath = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{baseName}_render.png");
+            var renderPath = Path.Combine(_appData.SkinsDirectory, $"{baseName}_render.png");
             await File.WriteAllBytesAsync(renderPath, previewBytes);
 
             var headBytes = await HttpClientFactory.Shared.GetByteArrayAsync(skin.HeadUrl);
-            var headPath = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{baseName}_head.png");
+            var headPath = Path.Combine(_appData.SkinsDirectory, $"{baseName}_head.png");
             await File.WriteAllBytesAsync(headPath, headBytes);
 
             var entry = new SavedSkin { Name = skin.Name, Filename = filename, Source = "browse" };
@@ -350,15 +350,15 @@ public class SkinManager : Helpers.ObservableBase
 
             var skinBytes = await HttpClientFactory.Shared.GetByteArrayAsync($"https://mc-heads.net/skin/{uuid}");
             var filename = $"{nickname.ToLower()}_default.png";
-            var destPath = Path.Combine(_appData.SkinsDirectory.LocalPath, filename);
+            var destPath = Path.Combine(_appData.SkinsDirectory, filename);
             await File.WriteAllBytesAsync(destPath, skinBytes);
 
             var renderBytes = await HttpClientFactory.Shared.GetByteArrayAsync($"https://mc-heads.net/body/{uuid}/150");
-            var renderPath = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{nickname.ToLower()}_default_render.png");
+            var renderPath = Path.Combine(_appData.SkinsDirectory, $"{nickname.ToLower()}_default_render.png");
             await File.WriteAllBytesAsync(renderPath, renderBytes);
 
             var headBytes = await HttpClientFactory.Shared.GetByteArrayAsync($"https://mc-heads.net/avatar/{uuid}/128");
-            var headPath = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{nickname.ToLower()}_default_head.png");
+            var headPath = Path.Combine(_appData.SkinsDirectory, $"{nickname.ToLower()}_default_head.png");
             await File.WriteAllBytesAsync(headPath, headBytes);
 
             var skinEntry = new SavedSkin { Name = $"{nickname} (Default)", Filename = filename, Source = "nickname" };
@@ -389,17 +389,17 @@ public class SkinManager : Helpers.ObservableBase
         {
             var hash = cleanUuid.Substring(0, Math.Min(8, cleanUuid.Length)).ToLower();
             var filename = $"uuid_{hash}.png";
-            var destPath = Path.Combine(_appData.SkinsDirectory.LocalPath, filename);
+            var destPath = Path.Combine(_appData.SkinsDirectory, filename);
 
             var skinBytes = await HttpClientFactory.Shared.GetByteArrayAsync($"https://mc-heads.net/skin/{cleanUuid}");
             await File.WriteAllBytesAsync(destPath, skinBytes);
 
             var renderBytes = await HttpClientFactory.Shared.GetByteArrayAsync($"https://mc-heads.net/body/{cleanUuid}/150");
-            var renderPath = Path.Combine(_appData.SkinsDirectory.LocalPath, $"uuid_{hash}_render.png");
+            var renderPath = Path.Combine(_appData.SkinsDirectory, $"uuid_{hash}_render.png");
             await File.WriteAllBytesAsync(renderPath, renderBytes);
 
             var headBytes = await HttpClientFactory.Shared.GetByteArrayAsync($"https://mc-heads.net/avatar/{cleanUuid}/128");
-            var headPath = Path.Combine(_appData.SkinsDirectory.LocalPath, $"uuid_{hash}_head.png");
+            var headPath = Path.Combine(_appData.SkinsDirectory, $"uuid_{hash}_head.png");
             await File.WriteAllBytesAsync(headPath, headBytes);
 
             var list = new List<SavedSkin>(SavedSkins);
@@ -602,14 +602,14 @@ public class SkinManager : Helpers.ObservableBase
 
     public void DeleteSkin(SavedSkin skin)
     {
-        var skinFile = Path.Combine(_appData.SkinsDirectory.LocalPath, skin.Filename);
+        var skinFile = Path.Combine(_appData.SkinsDirectory, skin.Filename);
         if (File.Exists(skinFile)) try { File.Delete(skinFile); } catch { }
 
         var baseName = Path.GetFileNameWithoutExtension(skin.Filename);
-        var renderFile = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{baseName}_render.png");
+        var renderFile = Path.Combine(_appData.SkinsDirectory, $"{baseName}_render.png");
         if (File.Exists(renderFile)) try { File.Delete(renderFile); } catch { }
 
-        var headFile = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{baseName}_head.png");
+        var headFile = Path.Combine(_appData.SkinsDirectory, $"{baseName}_head.png");
         if (File.Exists(headFile)) try { File.Delete(headFile); } catch { }
 
         var list = new List<SavedSkin>(SavedSkins);
@@ -622,21 +622,21 @@ public class SkinManager : Helpers.ObservableBase
 
     public string? GetSkinImage(SavedSkin skin)
     {
-        var path = Path.Combine(_appData.SkinsDirectory.LocalPath, skin.Filename);
+        var path = Path.Combine(_appData.SkinsDirectory, skin.Filename);
         return File.Exists(path) ? path : null;
     }
 
     public string? GetRenderImage(SavedSkin skin)
     {
         var baseName = Path.GetFileNameWithoutExtension(skin.Filename);
-        var path = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{baseName}_render.png");
+        var path = Path.Combine(_appData.SkinsDirectory, $"{baseName}_render.png");
         return File.Exists(path) ? path : null;
     }
 
     public string? GetHeadImage(SavedSkin skin)
     {
         var baseName = Path.GetFileNameWithoutExtension(skin.Filename);
-        var path = Path.Combine(_appData.SkinsDirectory.LocalPath, $"{baseName}_head.png");
+        var path = Path.Combine(_appData.SkinsDirectory, $"{baseName}_head.png");
         return File.Exists(path) ? path : null;
     }
 }

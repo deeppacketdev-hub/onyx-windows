@@ -128,7 +128,7 @@ public class SettingsViewModel : ObservableBase
         }
     }
 
-    public string DataDirectoryPath => App.AppData.BaseDirectory.LocalPath;
+    public string DataDirectoryPath => App.AppData.BaseDirectory;
 
     public RelayCommand OpenDataFolderCommand { get; }
     public RelayCommand CheckUpdatesCommand { get; }
@@ -143,7 +143,7 @@ public class SettingsViewModel : ObservableBase
 
     private void OpenDataFolder()
     {
-        var dir = App.AppData.BaseDirectory.LocalPath;
+        var dir = App.AppData.BaseDirectory;
         if (System.IO.Directory.Exists(dir))
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
