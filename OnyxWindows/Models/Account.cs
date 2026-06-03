@@ -42,6 +42,9 @@ public class Account
     [JsonPropertyName("xuid")]
     public string? Xuid { get; set; }
 
+    [JsonIgnore]
+    public string Initials => string.IsNullOrEmpty(Username) ? "P" : Username[0].ToString().ToUpper();
+
     // ── Tokens — NOT serialized, stored in PasswordVault ──
     [JsonIgnore]
     public string? AccessToken { get; set; }

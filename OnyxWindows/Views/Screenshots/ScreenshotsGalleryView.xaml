@@ -80,7 +80,7 @@
                                         Margin="0,0,12,12" 
                                         ClipToBounds="True">
                                     <Grid>
-                                        <Image Source="{x:Binding FilePath}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Image Source="{x:Bind FilePath}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         
                                         <!-- Overlay gradient with stats on hover/visual -->
                                         <Grid VerticalAlignment="Bottom" Background="#B0000000" Padding="10,6">
@@ -90,8 +90,8 @@
                                             </Grid.ColumnDefinitions>
                                             
                                             <StackPanel Grid.Column="0">
-                                                <TextBlock Text="{x:Binding InstanceName}" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" />
-                                                <TextBlock Text="{x:Binding Resolution}" FontSize="10" Foreground="#8C9BAE" />
+                                                <TextBlock Text="{x:Bind InstanceName}" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{x:Bind Resolution}" FontSize="10" Foreground="#8C9BAE" />
                                             </StackPanel>
 
                                             <Button Grid.Column="1"

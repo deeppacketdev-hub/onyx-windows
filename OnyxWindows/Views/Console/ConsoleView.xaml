@@ -90,8 +90,8 @@
                         <TextBlock FontFamily="Consolas, Courier New, monospace"
                                    FontSize="12"
                                    TextWrapping="Wrap"
-                                   Text="{x:Binding Text}"
-                                   Foreground="{x:Binding Type, Converter={StaticResource LogTypeColorConverter}}" />
+                                   Text="{x:Bind Text}"
+                                   Foreground="{x:Bind Type, Converter={StaticResource LogTypeColorConverter}}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -89,16 +89,16 @@
                                         <StackPanel Grid.Row="0" Spacing="4">
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <Ellipse Width="10" Height="10" Fill="#4C8AEA" VerticalAlignment="Center" />
-                                                <TextBlock Text="{x:Binding Name}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="15" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{x:Bind Name}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="15" TextTrimming="CharacterEllipsis" />
                                             </StackPanel>
-                                            <TextBlock Text="{x:Binding InstanceName}" Foreground="#8C9BAE" FontSize="12" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{x:Bind InstanceName}" Foreground="#8C9BAE" FontSize="12" TextTrimming="CharacterEllipsis" />
                                         </StackPanel>
 
                                         <!-- Footer with Date & delete options -->
                                         <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
                                             <StackPanel Grid.Column="0" Spacing="2">
                                                 <TextBlock Text="Last Played" FontSize="10" Foreground="#8C9BAE" />
-                                                <TextBlock Text="{x:Binding LastPlayed, ConverterParameter='g'}" FontSize="11" Foreground="#FFFFFF" />
+                                                <TextBlock Text="{x:Bind LastPlayed, ConverterParameter='g'}" FontSize="11" Foreground="#FFFFFF" />
                                             </StackPanel>
                                             
                                             <!-- Action Delete button -->

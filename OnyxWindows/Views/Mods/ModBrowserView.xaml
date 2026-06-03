@@ -93,23 +93,23 @@
                                     <Grid ColumnDefinitions="Auto,*,Auto">
                                         <!-- Project Icon -->
                                         <Border Grid.Column="0" Width="48" Height="48" CornerRadius="8" Margin="0,0,16,0" Background="#0F1923" ClipToBounds="True">
-                                            <Image Source="{x:Binding IconUrl}" Width="48" Height="48" Stretch="UniformToFill" />
+                                            <Image Source="{x:Bind IconUrl}" Width="48" Height="48" Stretch="UniformToFill" />
                                         </Border>
 
                                         <!-- Text Details -->
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                            <TextBlock Text="{x:Binding Title}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="15" />
-                                            <TextBlock Text="{x:Binding Description}" Foreground="#8C9BAE" FontSize="12" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="0,4,0,0" />
+                                            <TextBlock Text="{x:Bind Title}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="15" />
+                                            <TextBlock Text="{x:Bind Description}" Foreground="#8C9BAE" FontSize="12" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="0,4,0,0" />
                                         </StackPanel>
 
                                         <!-- Stats Indicator -->
                                         <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="4">
                                             <StackPanel Orientation="Horizontal" Spacing="4" HorizontalAlignment="Right">
                                                 <FontIcon Glyph="&#xE896;" FontSize="12" Foreground="#8C9BAE" />
-                                                <TextBlock Text="{x:Binding Downloads}" FontSize="12" Foreground="#8C9BAE" />
+                                                <TextBlock Text="{x:Bind Downloads}" FontSize="12" Foreground="#8C9BAE" />
                                             </StackPanel>
                                             <Border Background="#1C2E3F" CornerRadius="4" Padding="6,2" HorizontalAlignment="Right">
-                                                <TextBlock Text="{x:Binding ProjectType}" FontSize="10" Foreground="#4C8AEA" FontWeight="SemiBold" TextUpConverter="ToUpper" />
+                                                <TextBlock Text="{x:Bind ProjectType}" FontSize="10" Foreground="#4C8AEA" FontWeight="SemiBold" TextUpConverter="ToUpper" />
                                             </Border>
                                         </StackPanel>
                                     </Grid>
@@ -173,11 +173,11 @@
                                             <Border Background="#1C2E3F" CornerRadius="8" Padding="12,10" Margin="0,0,0,8" BorderBrush="#2A3E50" BorderThickness="1">
                                                 <Grid ColumnDefinitions="*,Auto">
                                                     <StackPanel Grid.Column="0" Spacing="4">
-                                                        <TextBlock Text="{x:Binding Name}" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="13" />
+                                                        <TextBlock Text="{x:Bind Name}" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="13" />
                                                         <StackPanel Orientation="Horizontal" Spacing="8">
-                                                            <TextBlock Text="{x:Binding VersionNumber}" Foreground="#8C9BAE" FontSize="11" />
+                                                            <TextBlock Text="{x:Bind VersionNumber}" Foreground="#8C9BAE" FontSize="11" />
                                                             <TextBlock Text="•" Foreground="#8C9BAE" FontSize="11" />
-                                                            <TextBlock Text="{x:Binding GameVersions[0]}" Foreground="#4C8AEA" FontSize="11" FontWeight="SemiBold" />
+                                                            <TextBlock Text="{x:Bind GameVersions[0]}" Foreground="#4C8AEA" FontSize="11" FontWeight="SemiBold" />
                                                         </StackPanel>
                                                     </StackPanel>
                                                 </Grid>

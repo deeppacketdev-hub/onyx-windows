@@ -198,7 +198,7 @@
                                                 <GradientStop Color="#4C8AEA" Offset="1.0" />
                                             </LinearGradientBrush>
                                         </Border.Background>
-                                        <TextBlock Text="{Binding Accounts.ActiveAccount.Username[0], FallbackValue='S'}"
+                                        <TextBlock Text="{Binding Accounts.ActiveAccount.Initials, FallbackValue='S'}"
                                                    Foreground="White"
                                                    FontSize="10"
                                                    FontWeight="SemiBold"
