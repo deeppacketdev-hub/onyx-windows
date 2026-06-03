@@ -22,11 +22,11 @@ public class InstanceSettingsViewModel : ObservableBase
     private string? _javaPath;
     public string? JavaPath { get => _javaPath; set => SetProperty(ref _javaPath, value); }
 
-    private int? _gameWidth;
-    public int? GameWidth { get => _gameWidth; set => SetProperty(ref _gameWidth, value); }
+    private double _gameWidth = double.NaN;
+    public double GameWidth { get => _gameWidth; set => SetProperty(ref _gameWidth, value); }
 
-    private int? _gameHeight;
-    public int? GameHeight { get => _gameHeight; set => SetProperty(ref _gameHeight, value); }
+    private double _gameHeight = double.NaN;
+    public double GameHeight { get => _gameHeight; set => SetProperty(ref _gameHeight, value); }
 
     private bool _fullscreen;
     public bool Fullscreen { get => _fullscreen; set => SetProperty(ref _fullscreen, value); }
@@ -51,8 +51,8 @@ public class InstanceSettingsViewModel : ObservableBase
         RamMB = instance.RamMB;
         JvmArgs = string.Join(" ", instance.JvmArguments);
         JavaPath = instance.JavaPath;
-        GameWidth = instance.GameWidth;
-        GameHeight = instance.GameHeight;
+        GameWidth = instance.GameWidth ?? double.NaN;
+        GameHeight = instance.GameHeight ?? double.NaN;
         Fullscreen = instance.Fullscreen;
         CustomIconPath = instance.CustomIconPath;
     }
@@ -68,8 +68,8 @@ public class InstanceSettingsViewModel : ObservableBase
         _instance.JvmArguments = new List<string>(args);
         
         _instance.JavaPath = string.IsNullOrWhiteSpace(JavaPath) ? null : JavaPath;
-        _instance.GameWidth = GameWidth;
-        _instance.GameHeight = GameHeight;
+        _instance.GameWidth = double.IsNaN(GameWidth) ? null : (int)GameWidth;
+        _instance.GameHeight = double.IsNaN(GameHeight) ? null : (int)GameHeight;
         _instance.Fullscreen = Fullscreen;
         _instance.CustomIconPath = string.IsNullOrWhiteSpace(CustomIconPath) ? null : CustomIconPath;
 

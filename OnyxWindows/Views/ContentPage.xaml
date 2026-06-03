@@ -31,7 +31,7 @@
         </Grid.RowDefinitions>
 
         <!-- ROW 0: CUSTOM TITLEBAR STRIP -->
-        <Border Grid.Row="0" Background="rgba(255,255,255,0.04)" BorderBrush="rgba(255,255,255,0.07)" BorderThickness="0,0,0,1">
+        <Border Grid.Row="0" Background="#0AFFFFFF" BorderBrush="#12FFFFFF" BorderThickness="0,0,0,1">
             <Grid Padding="16,0,12,0" ColumnDefinitions="*,Auto">
                 <!-- Title & Gradient Logo -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
@@ -43,14 +43,14 @@
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
-                    <TextBlock Text="Onyx Launcher" FontSize="12" FontWeight="SemiBold" Foreground="rgba(255,255,255,0.45)" LetterSpacing="2" VerticalAlignment="Center" />
+                    <TextBlock Text="Onyx Launcher" FontSize="12" FontWeight="SemiBold" Foreground="#73FFFFFF" CharacterSpacing="100" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <!-- Window Control Buttons Placeholder -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                    <Button Content="—" Background="rgba(255,255,255,0.06)" Foreground="rgba(255,255,255,0.4)" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
-                    <Button Content="⬜" Background="rgba(255,255,255,0.06)" Foreground="rgba(255,255,255,0.4)" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
-                    <Button Content="✕" Background="rgba(220,50,50,0.25)" Foreground="rgba(220,80,80,0.8)" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
+                    <Button Content="—" Background="#0FFFFFFF" Foreground="#66FFFFFF" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
+                    <Button Content="⬜" Background="#0FFFFFFF" Foreground="#66FFFFFF" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
+                    <Button Content="✕" Background="#40DC3232" Foreground="#CCDC5050" FontSize="8" Width="26" Height="18" Padding="0" CornerRadius="4" BorderThickness="0" />
                 </StackPanel>
             </Grid>
         </Border>
@@ -73,7 +73,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- COLUMN 0: COMPACT 56px LEFT SIDEBAR -->
-                <Border Grid.Column="0" Background="rgba(255,255,255,0.025)" BorderBrush="rgba(255,255,255,0.06)" BorderThickness="0,0,1,0">
+                <Border Grid.Column="0" Background="#06FFFFFF" BorderBrush="#0FFFFFFF" BorderThickness="0,0,1,0">
                     <Grid Padding="0,12">
                         <Grid.RowDefinitions>
                             <!-- Main pages Navigation -->
@@ -164,14 +164,14 @@
                     </Grid.RowDefinitions>
 
                     <!-- ROW 0: TOPBAR STRIP -->
-                    <Border Grid.Row="0" Background="rgba(255,255,255,0.02)" BorderBrush="rgba(255,255,255,0.07)" BorderThickness="0,0,0,1">
+                    <Border Grid.Row="0" Background="#05FFFFFF" BorderBrush="#12FFFFFF" BorderThickness="0,0,0,1">
                         <Grid Padding="16,0" ColumnDefinitions="*,Auto,Auto">
                             <!-- Search box in WinUI style matching CSS -->
                             <Grid Grid.Column="0" Width="260" Height="30" HorizontalAlignment="Left">
                                 <TextBox PlaceholderText="Пошук збірок / Search..."
-                                         Background="rgba(255,255,255,0.07)"
+                                         Background="#12FFFFFF"
                                          Foreground="#FFFFFF"
-                                         BorderBrush="rgba(255,255,255,0.1)"
+                                         BorderBrush="#1AFFFFFF"
                                          BorderThickness="0.5"
                                          CornerRadius="8"
                                          Padding="10,0"
@@ -181,8 +181,8 @@
 
                             <!-- Account Pill rounded container -->
                             <Border Grid.Column="1"
-                                    Background="rgba(255,255,255,0.06)"
-                                    BorderBrush="rgba(255,255,255,0.1)"
+                                    Background="#0FFFFFFF"
+                                    BorderBrush="#1AFFFFFF"
                                     BorderThickness="0.5"
                                     CornerRadius="20"
                                     Padding="4,4,12,4"
@@ -209,7 +209,7 @@
                                     <!-- Display Username -->
                                     <TextBlock Grid.Column="1"
                                                Text="{Binding Accounts.ActiveAccount.Username, FallbackValue='Steve'}"
-                                               Foreground="rgba(255,255,255,0.7)"
+                                               Foreground="#B2FFFFFF"
                                                FontSize="12"
                                                VerticalAlignment="Center" />
                                 </Grid>
@@ -221,12 +221,12 @@
                                     Width="30"
                                     Height="30"
                                     CornerRadius="8"
-                                    Background="rgba(124,109,250,0.25)"
-                                    BorderBrush="rgba(124,109,250,0.4)"
+                                    Background="#407C6DFA"
+                                    BorderBrush="#667C6DFA"
                                     BorderThickness="0.5"
                                     Padding="0">
                                 <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="rgba(124,109,250,0.35)" />
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#597C6DFA" />
                                 </Button.Resources>
                                 <FontIcon Glyph="&#xE710;" FontSize="14" Foreground="#A594F9" />
                             </Button>

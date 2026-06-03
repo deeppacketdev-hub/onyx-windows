@@ -8,12 +8,14 @@
     PrimaryButtonClick="OnPrimaryButtonClick"
     DefaultButton="Primary"
     Style="{StaticResource DefaultContentDialogStyle}"
-    RequestedTheme="Dark">
+    RequestedTheme="Dark"
+    xmlns:converters="using:OnyxWindows.Converters">
 
     <ContentDialog.Resources>
         <!-- Override ContentDialog background for dark theme -->
         <SolidColorBrush x:Key="ContentDialogBackground" Color="#1C1E24" />
         <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVis" />
     </ContentDialog.Resources>
 
     <Grid Width="420" MinHeight="340" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
@@ -21,12 +23,12 @@
         <!-- Instance Name Field -->
         <StackPanel Grid.Row="0" Margin="0,0,0,16">
             <TextBlock Text="Назва збірки" FontSize="12" FontWeight="SemiBold"
-                       Foreground="rgba(255,255,255,0.6)" Margin="0,0,0,6" />
+                       Foreground="#99FFFFFF" Margin="0,0,0,6" />
             <TextBox x:Name="InstanceNameBox"
                      PlaceholderText="My Survival World"
-                     Background="rgba(255,255,255,0.06)"
+                     Background="#0FFFFFFF"
                      Foreground="White"
-                     BorderBrush="rgba(255,255,255,0.1)"
+                     BorderBrush="#1AFFFFFF"
                      BorderThickness="0.5"
                      CornerRadius="8"
                      Padding="12,8"
@@ -36,15 +38,15 @@
         <!-- Minecraft Version Selector -->
         <StackPanel Grid.Row="1" Margin="0,0,0,16">
             <TextBlock Text="Версія Minecraft" FontSize="12" FontWeight="SemiBold"
-                       Foreground="rgba(255,255,255,0.6)" Margin="0,0,0,6" />
+                       Foreground="#99FFFFFF" Margin="0,0,0,6" />
             <ComboBox x:Name="VersionCombo"
                       ItemsSource="{Binding MinecraftVersions}"
                       SelectedItem="{Binding SelectedMinecraftVersion, Mode=TwoWay}"
                       PlaceholderText="Оберіть версію..."
                       HorizontalAlignment="Stretch"
-                      Background="rgba(255,255,255,0.06)"
+                      Background="#0FFFFFFF"
                       Foreground="White"
-                      BorderBrush="rgba(255,255,255,0.1)"
+                      BorderBrush="#1AFFFFFF"
                       BorderThickness="0.5"
                       CornerRadius="8"
                       FontSize="13" />
@@ -53,54 +55,54 @@
         <!-- Mod Loader Selector -->
         <StackPanel Grid.Row="2" Margin="0,0,0,16">
             <TextBlock Text="Мод Лоадер" FontSize="12" FontWeight="SemiBold"
-                       Foreground="rgba(255,255,255,0.6)" Margin="0,0,0,6" />
+                       Foreground="#99FFFFFF" Margin="0,0,0,6" />
             <Grid ColumnDefinitions="*,*,*,*,*">
                 <!-- Vanilla -->
                 <RadioButton x:Name="LoaderNone" Grid.Column="0"
                              Content="Vanilla" GroupName="Loader" IsChecked="True"
                              Checked="Loader_Checked"
-                             Foreground="rgba(255,255,255,0.7)" FontSize="11"
+                             Foreground="#B2FFFFFF" FontSize="11"
                              MinWidth="0" Padding="6,4" />
                 <!-- Fabric -->
                 <RadioButton x:Name="LoaderFabric" Grid.Column="1"
                              Content="Fabric" GroupName="Loader"
                              Checked="Loader_Checked"
-                             Foreground="rgba(255,255,255,0.7)" FontSize="11"
+                             Foreground="#B2FFFFFF" FontSize="11"
                              MinWidth="0" Padding="6,4" />
                 <!-- Quilt -->
                 <RadioButton x:Name="LoaderQuilt" Grid.Column="2"
                              Content="Quilt" GroupName="Loader"
                              Checked="Loader_Checked"
-                             Foreground="rgba(255,255,255,0.7)" FontSize="11"
+                             Foreground="#B2FFFFFF" FontSize="11"
                              MinWidth="0" Padding="6,4" />
                 <!-- Forge -->
                 <RadioButton x:Name="LoaderForge" Grid.Column="3"
                              Content="Forge" GroupName="Loader"
                              Checked="Loader_Checked"
-                             Foreground="rgba(255,255,255,0.7)" FontSize="11"
+                             Foreground="#B2FFFFFF" FontSize="11"
                              MinWidth="0" Padding="6,4" />
                 <!-- NeoForge -->
                 <RadioButton x:Name="LoaderNeoforge" Grid.Column="4"
                              Content="NeoForge" GroupName="Loader"
                              Checked="Loader_Checked"
-                             Foreground="rgba(255,255,255,0.7)" FontSize="11"
+                             Foreground="#B2FFFFFF" FontSize="11"
                              MinWidth="0" Padding="6,4" />
             </Grid>
         </StackPanel>
 
         <!-- Loader Version Selector (visible only when loader != None) -->
         <StackPanel Grid.Row="3" Margin="0,0,0,16"
-                    Visibility="{Binding IsLoaderSelected, FallbackValue=Collapsed}">
+                    Visibility="{Binding IsLoaderSelected, Converter={StaticResource BoolToVis}}">
             <TextBlock Text="Версія лоадера" FontSize="12" FontWeight="SemiBold"
-                       Foreground="rgba(255,255,255,0.6)" Margin="0,0,0,6" />
+                       Foreground="#99FFFFFF" Margin="0,0,0,6" />
             <ComboBox x:Name="LoaderVersionCombo"
                       ItemsSource="{Binding LoaderVersions}"
                       SelectedItem="{Binding SelectedLoaderVersion, Mode=TwoWay}"
                       PlaceholderText="Оберіть версію лоадера..."
                       HorizontalAlignment="Stretch"
-                      Background="rgba(255,255,255,0.06)"
+                      Background="#0FFFFFFF"
                       Foreground="White"
-                      BorderBrush="rgba(255,255,255,0.1)"
+                      BorderBrush="#1AFFFFFF"
                       BorderThickness="0.5"
                       CornerRadius="8"
                       FontSize="13" />
@@ -108,20 +110,20 @@
 
         <!-- Loading Indicator -->
         <StackPanel Grid.Row="4" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8"
-                    Visibility="{Binding IsLoadingVersions, FallbackValue=Collapsed}">
+                    Visibility="{Binding IsLoadingVersions, Converter={StaticResource BoolToVis}}">
             <ProgressRing Width="16" Height="16" IsActive="True" />
-            <TextBlock Text="Завантаження версій..." FontSize="11" Foreground="rgba(255,255,255,0.4)" VerticalAlignment="Center" />
+            <TextBlock Text="Завантаження версій..." FontSize="11" Foreground="#66FFFFFF" VerticalAlignment="Center" />
         </StackPanel>
 
         <!-- Preview Summary Card -->
-        <Border Grid.Row="5" Background="rgba(124,109,250,0.08)" CornerRadius="10" Padding="14,10" Margin="0,4,0,0"
-                BorderBrush="rgba(124,109,250,0.18)" BorderThickness="0.5">
+        <Border Grid.Row="5" Background="#147C6DFA" CornerRadius="10" Padding="14,10" Margin="0,4,0,0"
+                BorderBrush="#2E7C6DFA" BorderThickness="0.5">
             <StackPanel Spacing="4">
-                <TextBlock FontSize="11" Foreground="rgba(255,255,255,0.35)">
+                <TextBlock FontSize="11" Foreground="#59FFFFFF">
                     <Run Text="📦  " />
                     <Run Text="Збірка буде створена в папці instances/" />
                 </TextBlock>
-                <TextBlock FontSize="11" Foreground="rgba(255,255,255,0.35)">
+                <TextBlock FontSize="11" Foreground="#59FFFFFF">
                     <Run Text="💾  " />
                     <Run Text="RAM за замовчуванням буде взято з глобальних налаштувань" />
                 </TextBlock>

@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolConverter" />
     </UserControl.Resources>
 
     <Grid Background="Transparent">

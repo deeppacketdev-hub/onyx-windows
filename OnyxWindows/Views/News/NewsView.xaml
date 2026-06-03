@@ -4,7 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:OnyxWindows.Converters"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,50 +22,50 @@
             <StackPanel Spacing="4">
                 <TextBlock Text="📰  Новини Minecraft"
                            FontSize="22" FontWeight="Bold"
-                           Foreground="rgba(255,255,255,0.92)" />
+                           Foreground="#EBFFFFFF" />
                 <TextBlock Text="Останні оновлення від Mojang Studios"
-                           FontSize="12" Foreground="rgba(255,255,255,0.35)" />
+                           FontSize="12" Foreground="#59FFFFFF" />
             </StackPanel>
 
             <!-- Refresh Button -->
             <Button Grid.Column="1" Command="{Binding RefreshCommand}"
-                    Background="rgba(255,255,255,0.06)"
-                    BorderBrush="rgba(255,255,255,0.1)"
+                    Background="#0FFFFFFF"
+                    BorderBrush="#1AFFFFFF"
                     BorderThickness="0.5"
                     CornerRadius="10"
                     Padding="14,8"
                     VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <FontIcon Glyph="&#xE72C;" FontSize="13" Foreground="#A594F9" />
-                    <TextBlock Text="Оновити" FontSize="12" Foreground="rgba(255,255,255,0.6)" VerticalAlignment="Center" />
+                    <TextBlock Text="Оновити" FontSize="12" Foreground="#99FFFFFF" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
         </Grid>
 
         <!-- ─── Loading State ─── -->
-        <StackPanel Grid.Row="1" Visibility="{Binding IsLoading, FallbackValue=Collapsed}"
+        <StackPanel Grid.Row="1" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
             <ProgressRing Width="36" Height="36" IsActive="True" />
-            <TextBlock Text="Завантаження новин..." FontSize="13" Foreground="rgba(255,255,255,0.4)" HorizontalAlignment="Center" />
+            <TextBlock Text="Завантаження новин..." FontSize="13" Foreground="#66FFFFFF" HorizontalAlignment="Center" />
         </StackPanel>
 
         <!-- ─── Error State ─── -->
         <Border Grid.Row="1"
-                Visibility="{Binding HasError, FallbackValue=Collapsed}"
-                Background="rgba(220,50,50,0.08)"
+                Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}"
+                Background="#14DC3232"
                 CornerRadius="12" Padding="20"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                BorderBrush="rgba(220,50,50,0.2)" BorderThickness="0.5">
+                BorderBrush="#33DC3232" BorderThickness="0.5">
             <StackPanel Spacing="8" HorizontalAlignment="Center">
                 <TextBlock Text="⚠️  Помилка завантаження" FontSize="14" FontWeight="SemiBold"
-                           Foreground="rgba(220,100,100,0.9)" HorizontalAlignment="Center" />
+                           Foreground="#E6DC6464" HorizontalAlignment="Center" />
                 <TextBlock Text="{Binding ErrorMessage}" FontSize="11"
-                           Foreground="rgba(255,255,255,0.4)" TextWrapping="Wrap"
+                           Foreground="#66FFFFFF" TextWrapping="Wrap"
                            MaxWidth="300" HorizontalAlignment="Center" />
                 <Button Content="Спробувати знову" Command="{Binding RefreshCommand}"
                         HorizontalAlignment="Center" Margin="0,8,0,0"
-                        Background="rgba(255,255,255,0.06)" CornerRadius="8"
-                        Foreground="rgba(255,255,255,0.6)" FontSize="12" />
+                        Background="#0FFFFFFF" CornerRadius="8"
+                        Foreground="#99FFFFFF" FontSize="12" />
             </StackPanel>
         </Border>
 
@@ -94,9 +99,9 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <!-- News Card -->
-                    <Border Background="rgba(255,255,255,0.04)"
+                    <Border Background="#0AFFFFFF"
                             CornerRadius="14"
-                            BorderBrush="rgba(255,255,255,0.06)"
+                            BorderBrush="#0FFFFFFF"
                             BorderThickness="0.5">
                         <Grid RowDefinitions="160,*">
                             <!-- Card Image Header -->
@@ -116,7 +121,7 @@
 
                                     <Grid VerticalAlignment="Bottom" Padding="14,0,14,10">
                                         <!-- Category Badge -->
-                                        <Border Background="rgba(124,109,250,0.65)"
+                                        <Border Background="#A67C6DFA"
                                                 CornerRadius="6" Padding="8,3"
                                                 HorizontalAlignment="Left">
                                             <TextBlock Text="{Binding Category}"
@@ -132,7 +137,7 @@
                                 <!-- Title -->
                                 <TextBlock Text="{Binding Title}"
                                            FontSize="13" FontWeight="SemiBold"
-                                           Foreground="rgba(255,255,255,0.88)"
+                                           Foreground="#E0FFFFFF"
                                            TextWrapping="Wrap"
                                            MaxLines="2"
                                            TextTrimming="CharacterEllipsis" />
@@ -140,12 +145,12 @@
                                 <!-- Date -->
                                 <TextBlock Text="{Binding FormattedDate}"
                                            FontSize="10"
-                                           Foreground="rgba(255,255,255,0.3)" />
+                                           Foreground="#4CFFFFFF" />
 
                                 <!-- Excerpt -->
                                 <TextBlock Text="{Binding Text}"
                                            FontSize="11"
-                                           Foreground="rgba(255,255,255,0.45)"
+                                           Foreground="#73FFFFFF"
                                            TextWrapping="Wrap"
                                            MaxLines="2"
                                            TextTrimming="CharacterEllipsis" />
