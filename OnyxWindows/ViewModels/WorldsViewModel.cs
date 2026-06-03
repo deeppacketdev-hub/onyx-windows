@@ -27,6 +27,7 @@ public class WorldsViewModel : ObservableBase
     }
 
     public bool IsWorldSelected => SelectedWorld != null;
+    public bool HasNoWorlds => Worlds.Count == 0;
 
     private bool _isLoading;
     public bool IsLoading { get => _isLoading; set => SetProperty(ref _isLoading, value); }
@@ -57,6 +58,7 @@ public class WorldsViewModel : ObservableBase
             {
                 Worlds.Add(w);
             }
+            OnPropertyChanged(nameof(HasNoWorlds));
         }
         catch (Exception ex)
         {
@@ -75,5 +77,6 @@ public class WorldsViewModel : ObservableBase
         App.Worlds.DeleteWorld(SelectedWorld);
         Worlds.Remove(SelectedWorld);
         SelectedWorld = null;
+        OnPropertyChanged(nameof(HasNoWorlds));
     }
 }

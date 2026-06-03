@@ -28,6 +28,7 @@ public class ScreenshotsViewModel : ObservableBase
     }
 
     public bool IsScreenshotSelected => SelectedScreenshot != null;
+    public bool HasNoScreenshots => Screenshots.Count == 0;
 
     private bool _isLoading;
     public bool IsLoading { get => _isLoading; set => SetProperty(ref _isLoading, value); }
@@ -58,6 +59,7 @@ public class ScreenshotsViewModel : ObservableBase
             {
                 Screenshots.Add(s);
             }
+            OnPropertyChanged(nameof(HasNoScreenshots));
         }
         catch (Exception ex)
         {
@@ -76,5 +78,6 @@ public class ScreenshotsViewModel : ObservableBase
         App.Screenshots.DeleteScreenshot(SelectedScreenshot);
         Screenshots.Remove(SelectedScreenshot);
         SelectedScreenshot = null;
+        OnPropertyChanged(nameof(HasNoScreenshots));
     }
 }

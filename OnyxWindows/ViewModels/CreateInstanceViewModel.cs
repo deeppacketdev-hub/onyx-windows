@@ -119,7 +119,7 @@ public class CreateInstanceViewModel : ObservableBase
                 case ModLoaderType.Forge:
                     versions = await App.ModLoaders.GetForgeVersions(SelectedMinecraftVersion);
                     break;
-                case ModLoaderType.Neoforge:
+                case ModLoaderType.NeoForge:
                     versions = await App.ModLoaders.GetNeoForgeVersions(SelectedMinecraftVersion);
                     break;
             }

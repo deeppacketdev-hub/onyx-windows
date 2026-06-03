@@ -112,7 +112,7 @@
                     </GridView>
 
                     <!-- Empty State -->
-                    <StackPanel Visibility="{Binding Screenshots.Count, Converter={StaticResource InverseBoolConverter}, FallbackValue=Collapsed}"
+                    <StackPanel Visibility="{Binding HasNoScreenshots, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Spacing="16"

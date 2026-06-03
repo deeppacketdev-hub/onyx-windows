@@ -24,7 +24,7 @@ public partial class CreateInstanceDialog : ContentDialog
             else if (rb == LoaderFabric) _vm.SelectedLoader = ModLoaderType.Fabric;
             else if (rb == LoaderQuilt) _vm.SelectedLoader = ModLoaderType.Quilt;
             else if (rb == LoaderForge) _vm.SelectedLoader = ModLoaderType.Forge;
-            else if (rb == LoaderNeoforge) _vm.SelectedLoader = ModLoaderType.Neoforge;
+            else if (rb == LoaderNeoforge) _vm.SelectedLoader = ModLoaderType.NeoForge;
         }
     }
 

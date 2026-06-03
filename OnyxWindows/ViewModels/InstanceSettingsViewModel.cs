@@ -49,12 +49,12 @@ public class InstanceSettingsViewModel : ObservableBase
         _instance = instance;
         Name = instance.Name;
         RamMB = instance.RamMB;
-        JvmArgs = string.Join(" ", instance.JvmArguments);
-        JavaPath = instance.JavaPath;
-        GameWidth = instance.GameWidth ?? double.NaN;
-        GameHeight = instance.GameHeight ?? double.NaN;
+        JvmArgs = instance.JvmArguments;
+        JavaPath = instance.CustomJavaPath;
+        GameWidth = instance.WindowWidth.HasValue ? (double)instance.WindowWidth.Value : double.NaN;
+        GameHeight = instance.WindowHeight.HasValue ? (double)instance.WindowHeight.Value : double.NaN;
         Fullscreen = instance.Fullscreen;
-        CustomIconPath = instance.CustomIconPath;
+        CustomIconPath = instance.IconFilename;
     }
 
     private void SaveSettings()
@@ -63,15 +63,12 @@ public class InstanceSettingsViewModel : ObservableBase
 
         _instance.Name = Name;
         _instance.RamMB = RamMB;
-        
-        var args = JvmArgs.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        _instance.JvmArguments = new List<string>(args);
-        
-        _instance.JavaPath = string.IsNullOrWhiteSpace(JavaPath) ? null : JavaPath;
-        _instance.GameWidth = double.IsNaN(GameWidth) ? null : (int)GameWidth;
-        _instance.GameHeight = double.IsNaN(GameHeight) ? null : (int)GameHeight;
+        _instance.JvmArguments = JvmArgs;
+        _instance.CustomJavaPath = string.IsNullOrWhiteSpace(JavaPath) ? null : JavaPath;
+        _instance.WindowWidth = double.IsNaN(GameWidth) ? (int?)null : (int)GameWidth;
+        _instance.WindowHeight = double.IsNaN(GameHeight) ? (int?)null : (int)GameHeight;
         _instance.Fullscreen = Fullscreen;
-        _instance.CustomIconPath = string.IsNullOrWhiteSpace(CustomIconPath) ? null : CustomIconPath;
+        _instance.IconFilename = string.IsNullOrWhiteSpace(CustomIconPath) ? null : CustomIconPath;
 
         App.Instances.SaveInstance(_instance);
         App.MainVM.InstanceGrid.RefreshInstances();

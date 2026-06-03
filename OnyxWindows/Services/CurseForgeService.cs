@@ -163,7 +163,7 @@ public class CurseForgeService : Helpers.ObservableBase
             ModLoaderType.Forge => 1,
             ModLoaderType.Fabric => 4,
             ModLoaderType.Quilt => 5,
-            ModLoaderType.Neoforge => 6,
+            ModLoaderType.NeoForge => 6,
             _ => 1
         };
     }

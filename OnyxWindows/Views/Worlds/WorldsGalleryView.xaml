@@ -119,7 +119,7 @@
                     </GridView>
 
                     <!-- Empty State Placeholder -->
-                    <StackPanel Visibility="{Binding Worlds.Count, Converter={StaticResource InverseBoolConverter}, FallbackValue=Collapsed}"
+                    <StackPanel Visibility="{Binding HasNoWorlds, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Spacing="16"
