@@ -72,12 +72,11 @@
 
                             <!-- Row 0: Art Area with custom gradients -->
                             <Border Grid.Row="0"
-                                    Background="{Binding Converter={StaticResource CardArtBrushConverter}}"
-                                    CornerRadius="10,10,0,0"
-                                    ClipToBounds="True">
+                                    Background="{x:Bind Mode=OneWay, Converter={StaticResource CardArtBrushConverter}}"
+                                    CornerRadius="10,10,0,0">
                                 <Grid>
                                     <!-- Center graphic emoji icon -->
-                                    <TextBlock Text="{Binding Converter={StaticResource EmojiConverter}}"
+                                    <TextBlock Text="{x:Bind Mode=OneWay, Converter={StaticResource EmojiConverter}}"
                                                FontSize="28"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center" />
@@ -103,7 +102,7 @@
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Bottom"
                                             Margin="7">
-                                        <TextBlock Text="{x:Bind ModLoader}"
+                                        <TextBlock Text="{x:Bind ModLoader.ToString()}"
                                                    FontSize="9"
                                                    Foreground="{x:Bind ModLoader, Converter={StaticResource BadgeBrushConverter}, ConverterParameter=Foreground}"
                                                    FontWeight="SemiBold" />

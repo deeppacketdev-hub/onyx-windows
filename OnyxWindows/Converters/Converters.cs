@@ -263,3 +263,22 @@ public class ModLoaderToBadgeBrushConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
 }
+
+/// <summary>
+/// Converts DateTime to formatted string.
+/// </summary>
+public class DateTimeToStringConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        if (value is DateTime dt)
+        {
+            var format = parameter as string ?? "g";
+            return dt.ToString(format);
+        }
+        return "";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
+}
+

@@ -32,6 +32,9 @@ public class ModrinthVersion
     [JsonPropertyName("game_versions")] public List<string> GameVersions { get; set; } = new();
     [JsonPropertyName("files")] public List<ModrinthFile> Files { get; set; } = new();
     [JsonPropertyName("date_published")] public string DatePublished { get; set; } = "";
+
+    [JsonIgnore]
+    public string PrimaryGameVersion => GameVersions.Count > 0 ? GameVersions[0] : "";
 }
 
 public class ModrinthFile
